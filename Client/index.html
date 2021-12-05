@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html>
+<head>
+<title>Socket IO Demo</title>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<body>
+	<h1>Socket IO Demo</h1>
+  <ul id='messages'></ul>
+
+  <label>Keyword 1: </label>
+  <input type="text" id="key1"/>
+  <label>Keyword 2: </label>
+  <input type="text" id="key2"/>
+	<button type="button" id="sendbtn">Get Stream</button>
+  <button type="button" id="stopbtn">Stop Stream</button>
+  <hr/>
+  <div style="height:300px;overflow-y: scroll;">
+    <table class="table">
+      <thead>
+        <tr style="position: sticky;">
+          <th class="col-md-1">Matched Keyword(s)</th>
+          <th class="col-md-1">Link</th>
+          <th class="col-md-10">Tweet</th>
+        </tr>
+      </thead>
+      <tbody id='tbody'>
+      </tbody>
+    </table>
+  </div>
+
+  
+	<!-- <label id='msg'>Hidden</label> -->
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous">
+</script>
+<script src="/Fast API/Client/index.js"></script>
+
+</html>

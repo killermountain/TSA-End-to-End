@@ -1,7 +1,8 @@
 $(document).ready(function() 
 {
-    sio = io('http://127.0.0.1:5000/');
+    sio = io('ws://127.0.0.1:5000/');
     open_conn = true
+    client_id = 0
     
     $('#sendbtn').on('click', function(){
 
@@ -11,10 +12,10 @@ $(document).ready(function()
         }
         else
         {
-            sio.connect('http://127.0.0.1:5000/');
+            sio.connect('ws://127.0.0.1:5000/');
         }
         msg = $('#key1').val() + ';' + $('#key2').val();
-        sio.emit('get_stream', {'keys': msg});
+        sio.emit('get_stream', {'keys': msg, 'sid':client_id});
     });
 
     sio.on('connect', function() {
@@ -24,8 +25,22 @@ $(document).ready(function()
     });
 
     sio.on('message', function(msg) {
+
+        if(msg.includes('[300]') && client_id == 0 )
+        {
+            client_id = msg.split(':')[1];
+            console.log("Connected with server with client ID: " + client_id);
+            // console.log("SID: " +sid);
+
+            $(document).prop('title', client_id + ":SocketIO"); //$('#title').val(client_id + ":Socket IO:")
+        }
+        else
+            console.log("Message Recieved from server: " + msg);
+    });
+
+    sio.on('json', function(msg) {
         
-        console.log('message recieved from the server: ' + msg);
+        console.log('JSON recieved from the server: ' + msg.id);
     });
 
     sio.on('tweets', function(msg) {
@@ -34,9 +49,8 @@ $(document).ready(function()
         console.log('tweet recieved from the server.')
     });
     
-
     $('#stopbtn').on('click', function(){
-        sio.send("[201] Disconnecting...");
+        sio.send("[201] Disconnecting...;" + client_id);
         sio.disconnect();
         open_conn = false
     });

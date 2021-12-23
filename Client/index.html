@@ -6,28 +6,33 @@
 </head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <body>
-	<h1>Socket IO Demo</h1>
+  <br>
+	<h1 class="display-4 text-center">Socket IO Demo</h1>
   <ul id='messages'></ul>
-
-  <label>Keyword 1: </label>
-  <input type="text" id="key1"/>
-  <label>Keyword 2: </label>
-  <input type="text" id="key2"/>
-	<button type="button" id="sendbtn">Get Stream</button>
-  <button type="button" id="stopbtn">Stop Stream</button>
-  <hr/>
-  <div style="height:300px;overflow-y: scroll;">
-    <table class="table">
-      <thead>
-        <tr style="position: sticky;">
-          <th class="col-md-1">Matched Keyword(s)</th>
-          <th class="col-md-1">Link</th>
-          <th class="col-md-10">Tweet</th>
-        </tr>
-      </thead>
-      <tbody id='tbody'>
-      </tbody>
-    </table>
+  <div class="container">
+    <label>Keyword 1: </label>
+    <input type="text" id="key1"/>
+    <label>Keyword 2: </label>
+    <input type="text" id="key2"/>
+    <button type="button" id="sendbtn" class="btn btn-primary">Get Stream</button>
+    <button type="button" id="stopbtn" class="btn btn-danger">Stop Stream</button>
+    <hr/>
+    <h4>Total Tweets: <span id="tweets_count">0</span></h4>
+    <hr/>
+  </div>
+  
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1"><b>Matched Key(s)</b></div>
+      <div class="col-md-1"><b>Link</b></div>
+      <div class="col-md-1"><b>Sentiment</b></div>
+      <div class="col-md-9"><b>Tweet</b></div>        
+    </div>
+      
+    <div style="height:300px;overflow-y:scroll;">
+      <div id='tbody' class="row"></div>
+    </div>
   </div>
 
   

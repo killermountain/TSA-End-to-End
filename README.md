@@ -2,10 +2,10 @@
 
 Server Side:
 - Flask App Web Server
-- Websockets (Python-SocketIO)
+- Socket Programming (Flask-SocketIO)
 - TensorFlow --> for tweets classification Sentiment analysis
 
 Client Side:
 - HTML
 - Javascript (jQuery)
-- Websockets (SocketIO) using JS
+- Websockets (SocketIO) using JavaScript

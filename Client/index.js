@@ -3,6 +3,7 @@ $(document).ready(function()
     sio = io('ws://127.0.0.1:5000/');
     open_conn = true
     client_id = 0
+    tweet_count=0
     
     $('#sendbtn').on('click', function(){
 
@@ -45,8 +46,16 @@ $(document).ready(function()
 
     sio.on('tweets', function(msg) {
         link = '<a href="https://twitter.com/i/web/status/'+msg.id+'">Twitter Link</a>'
-        $('#tbody').append('<tr><td>'+ msg.tags +'</td><td>'+ link +'</td><td>'+ msg.text +'</td></tr>')
-        console.log('tweet recieved from the server.')
+
+        col1 = "<div class='col-md-1'>"+ msg.tags +"</div>"
+        col2 = "<div class='col-md-1'>"+ link +"</div>"
+        col3 = "<div class='col-md-1'>"+ msg.sentiment +"</div>"
+        col4 = "<div class='col-md-9'>"+ msg.text +"</div>"
+        $('#tbody').append(col1 + col2 + col3 + col4 + "<hr/>")
+        // $('#tbody').append('<tr><td>'+  +'</td><td>'+ link +'</td><td>'+ msg.text +'</td></tr>')
+        tweet_count += 1
+        $('#tweets_count').text(tweet_count)
+        console.log('tweet '+tweet_count+' recieved from the server.')
     });
     
     $('#stopbtn').on('click', function(){

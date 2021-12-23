@@ -87,7 +87,7 @@ class TwitterStream:
       set_ = self.__set_rules( key1, key2)
 
   def get_stream(self):
-    result = {}
+    
     response = requests.get(
         "https://api.twitter.com/2/tweets/search/stream", auth=self.__bearer_oauth, stream=True,
     )
@@ -112,13 +112,8 @@ class TwitterStream:
             tweet['tags'] = tweet['tags'][:-2]
             yield tweet
             print(self.close_conn)
-            if self.close_conn: break
-            # break
-            #   result = pipeline.annotate(tweet['text'])
-            #   sentiments = process_result(tweet, result, keyword1, keyword2)
-          
-            # print("going to sleep for 10 seconds...\n")
-            # time.sleep(10)
+            if self.close_conn:
+                break
       
   def main(self, keyword1, keyword2):
     rules = self.get_rules()

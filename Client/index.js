@@ -1,9 +1,12 @@
 $(document).ready(function() 
 {
-    sio = io('ws://127.0.0.1:5000/');
+    sio = io('ws://127.0.0.1:5000/ws');
+    $('#resetbtn').hide();
     open_conn = true
     client_id = 0
-    tweet_count=0
+    tweet_count = 0
+    tag1_count = 0
+    tag2_count = 0
     
     $('#sendbtn').on('click', function(){
 
@@ -15,8 +18,26 @@ $(document).ready(function()
         {
             sio.connect('ws://127.0.0.1:5000/');
         }
-        msg = $('#key1').val() + ';' + $('#key2').val();
+        tag1 = $('#key1').val();
+        tag2 = $('#key2').val();
+        $('#key1').prop( "disabled", true );
+        $('#key2').prop( "disabled", true );
+        msg = tag1 + ';' + tag2
         sio.emit('get_stream', {'keys': msg, 'sid':client_id});
+    });
+
+    $('#stopbtn').on('click', function(){
+        sio.send("[201] Disconnecting...;" + client_id);
+        sio.disconnect();
+        open_conn = false
+        $('#key1').prop( "disabled", false );
+        $('#key2').prop( "disabled", false );
+        $('#resetbtn').show();
+    });
+
+    $('#resetbtn').on('click', function(){
+        $('#key1').val('')
+        $('#key2').val('')
     });
 
     sio.on('connect', function() {
@@ -52,16 +73,14 @@ $(document).ready(function()
         col3 = "<div class='col-md-1'>"+ msg.sentiment +"</div>"
         col4 = "<div class='col-md-9'>"+ msg.text +"</div>"
         $('#tbody').append(col1 + col2 + col3 + col4 + "<hr/>")
-        // $('#tbody').append('<tr><td>'+  +'</td><td>'+ link +'</td><td>'+ msg.text +'</td></tr>')
+        
+        counts={}
         tweet_count += 1
+        updateTag(msg.tags)
         $('#tweets_count').text(tweet_count)
+        $('#key1_count').text(tag1_count)
+        $('#key2_count').text(tag2_count)
         console.log('tweet '+tweet_count+' recieved from the server.')
-    });
-    
-    $('#stopbtn').on('click', function(){
-        sio.send("[201] Disconnecting...;" + client_id);
-        sio.disconnect();
-        open_conn = false
     });
 
     sio.on('disconnect', function() {
@@ -70,4 +89,17 @@ $(document).ready(function()
     });
 
 });
+
+function updateTag(tag)
+{
+    if (tag.toLowerCase() == $('#key1').val().toLowerCase())
+    {
+        tag1_count += 1
+    }
+    else
+    {
+        tag2_count += 1
+    }
+    
+}
 

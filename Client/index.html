@@ -2,12 +2,12 @@
 
 <html>
 <head>
-<title id='title'>Socket IO Demo</title>
+<title id='title'>TSA</title>
 </head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <body>
   <br>
-	<h1 class="display-4 text-center">Socket IO Demo</h1>
+	<h1 class="display-4 text-center">Twitter Topics Sentiment</h1>
   <ul id='messages'></ul>
   <div class="container">
     <label>Keyword 1: </label>
@@ -16,12 +16,19 @@
     <input type="text" id="key2"/>
     <button type="button" id="sendbtn" class="btn btn-primary">Get Stream</button>
     <button type="button" id="stopbtn" class="btn btn-danger">Stop Stream</button>
-    <hr/>
-    <h4>Total Tweets: <span id="tweets_count">0</span></h4>
+    <button type="button" id="resetbtn" class="btn btn-secondary">Clear Keywords</button>
     <hr/>
   </div>
-  
-  
+  <div class='container'>
+    <div class="row">
+      <h4 class="col-md-4">Total Tweets: <span id="tweets_count">0</span></h4>
+      <h5 class="col-md-4">Tweets {Keyword 1}: <span id="key1_count">0</span></h5>
+      <h5 class="col-md-4">Tweets {Keyword2}: <span id="key2_count">0</span></h5>
+    </div>
+    
+    <hr/>
+  </div>  
+ 
   <div class="container">
     <div class="row">
       <div class="col-md-1"><b>Matched Key(s)</b></div>

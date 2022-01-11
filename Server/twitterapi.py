@@ -66,8 +66,8 @@ class TwitterStream:
   def __set_rules(self, keyword1, keyword2):
     # You can adjust the rules if needed
     sample_rules = [
-        {"value": keyword1 + " lang:en", "tag": keyword1+"-En"},
-        {"value": keyword2 + " lang:en", "tag": keyword2+"-En"},
+        {"value": keyword1, "tag": keyword1},
+        {"value": keyword2, "tag": keyword2},
     ]
     payload = {"add": sample_rules}
     response = requests.post(

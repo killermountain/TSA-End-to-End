@@ -10,9 +10,9 @@
 	<h1 class="display-4 text-center">Twitter Topics Sentiment</h1>
   <ul id='messages'></ul>
   <div class="container">
-    <label>Keyword 1: </label>
+    <label>Keyword1: </label>
     <input type="text" id="key1"/>
-    <label>Keyword 2: </label>
+    <label>Keyword2: </label>
     <input type="text" id="key2"/>
     <button type="button" id="sendbtn" class="btn btn-primary">Get Stream</button>
     <button type="button" id="stopbtn" class="btn btn-danger">Stop Stream</button>
@@ -20,12 +20,17 @@
     <hr/>
   </div>
   <div class='container'>
-    <div class="row">
-      <h4 class="col-md-4">Total Tweets: <span id="tweets_count">0</span></h4>
-      <h5 class="col-md-4">Tweets {Keyword 1}: <span id="key1_count">0</span></h5>
-      <h5 class="col-md-4">Tweets {Keyword2}: <span id="key2_count">0</span></h5>
-    </div>
-    
+      <div class="row">
+        <h4 class="col-md-12 text-center">Total Tweets: <span id="tweets_count">0</span></h4>
+        <h5 class="col-md-6 text-center">Tweets for Keyword1: <span id="key1_count">0</span></h5>
+        <h5 class="col-md-6 text-center">Tweets for Keyword2: <span id="key2_count">0</span></h5>
+        <div class="col-md-2">Positive: <span id="key1_pos">0</span></div>
+        <div class="col-md-2">Negative: <span id="key1_neg">0</span></div>
+        <div class="col-md-2 border-right border-primary">Neutral: <span id="key1_neut">0</span></div>
+        <div class="col-md-2 border-left border-primary">Positive: <span id="key2_pos">0</span></div>
+        <div class="col-md-2">Negative: <span id="key2_neg">0</span></div>
+        <div class="col-md-2">Neutral: <span id="key2_neut">0</span></div>
+     </div>
     <hr/>
   </div>  
  

@@ -1,12 +1,14 @@
 $(document).ready(function() 
 {
-    sio = io('ws://127.0.0.1:5000/ws');
+    sio = io('http://127.0.0.1:5000/');
     $('#resetbtn').hide();
     open_conn = true
     client_id = 0
     tweet_count = 0
     tag1_count = 0
     tag2_count = 0
+    key1_sentiment = {'pos':0, 'neg':0, 'neut':0}
+    key2_sentiment = {'pos':0, 'neg':0, 'neut':0}
     
     $('#sendbtn').on('click', function(){
 
@@ -16,14 +18,16 @@ $(document).ready(function()
         }
         else
         {
-            sio.connect('ws://127.0.0.1:5000/');
+            sio.connect('http://127.0.0.1:5000/');
         }
         tag1 = $('#key1').val();
         tag2 = $('#key2').val();
         $('#key1').prop( "disabled", true );
         $('#key2').prop( "disabled", true );
         msg = tag1 + ';' + tag2
+        //console.log('sending request for Tweets with Keywords');
         sio.emit('get_stream', {'keys': msg, 'sid':client_id});
+        console.log('Sent');
     });
 
     $('#stopbtn').on('click', function(){
@@ -33,6 +37,7 @@ $(document).ready(function()
         $('#key1').prop( "disabled", false );
         $('#key2').prop( "disabled", false );
         $('#resetbtn').show();
+        console.lo
     });
 
     $('#resetbtn').on('click', function(){
@@ -72,15 +77,15 @@ $(document).ready(function()
         col2 = "<div class='col-md-1'>"+ link +"</div>"
         col3 = "<div class='col-md-1'>"+ msg.sentiment +"</div>"
         col4 = "<div class='col-md-9'>"+ msg.text +"</div>"
-        $('#tbody').append(col1 + col2 + col3 + col4 + "<hr/>")
         
-        counts={}
         tweet_count += 1
-        updateTag(msg.tags)
+        updateTagSentiment(msg.tags, msg.sentiment)
         $('#tweets_count').text(tweet_count)
         $('#key1_count').text(tag1_count)
         $('#key2_count').text(tag2_count)
-        console.log('tweet '+tweet_count+' recieved from the server.')
+        $('#tbody').append(col1 + col2 + col3 + col4 + "<hr/>")
+        
+        console.log('tweet # '+tweet_count+' recieved from the server.')
     });
 
     sio.on('disconnect', function() {
@@ -90,15 +95,47 @@ $(document).ready(function()
 
 });
 
-function updateTag(tag)
+function updateTagSentiment(tag, sentiment)
 {
     if (tag.toLowerCase() == $('#key1').val().toLowerCase())
     {
         tag1_count += 1
+        if(sentiment.toLowerCase() == 'positive')
+        {
+            console.log('Found Positive for ' + tag);
+            key1_sentiment['pos'] += 1
+            $('#key1_pos').text(key1_sentiment['pos'])
+        }
+        else if(sentiment.toLowerCase() == 'negative')
+        {
+            key1_sentiment['neg'] += 1
+            $('#key1_neg').text(key1_sentiment['neg'])
+        }
+        else
+        {
+            key1_sentiment['neut'] += 1
+            $('#key1_neut').text(key1_sentiment['neut'])
+        }
     }
     else
     {
         tag2_count += 1
+        if(sentiment.toLowerCase() == 'positive')
+        {
+            console.log('Found Positive for ' + tag);
+            key2_sentiment['pos'] += 1
+            $('#key2_pos').text(key2_sentiment['pos'])
+        }
+        else if(sentiment.toLowerCase() == 'negative')
+        {
+            key2_sentiment['neg'] += 1
+            $('#key2_neg').text(key2_sentiment['neg'])
+        }
+        else
+        {
+            key2_sentiment['neut'] += 1
+            $('#key2_neut').text(key2_sentiment['neut'])
+        }
     }
     
 }

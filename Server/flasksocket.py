@@ -33,6 +33,7 @@ def disconnected():
 @sio.event()
 def get_stream(data):
     keys = data['keys'].split(';')
+    print("Recieved request for Tweets for keyowrds: ", keys)
     client_id = data['sid']
     SendStream(keys[0], keys[1])
     # stream_task = asyncio.ensure_future(SendStream(keys[0], keys[1]))

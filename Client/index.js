@@ -1,3 +1,7 @@
+
+key1_sentiment = {'pos':0, 'neg':0, 'neut':0}
+key2_sentiment = {'pos':0, 'neg':0, 'neut':0}
+
 $(document).ready(function() 
 {
     sio = io('http://127.0.0.1:5000/');
@@ -7,8 +11,11 @@ $(document).ready(function()
     tweet_count = 0
     tag1_count = 0
     tag2_count = 0
-    key1_sentiment = {'pos':0, 'neg':0, 'neut':0}
-    key2_sentiment = {'pos':0, 'neg':0, 'neut':0}
+    
+    
+    var charts = []
+    var canvas1 = document.getElementById("key1Chart").getContext('2d');
+    var canvas2 = document.getElementById("key2Chart").getContext('2d');
     
     $('#sendbtn').on('click', function(){
 
@@ -25,9 +32,11 @@ $(document).ready(function()
         $('#key1').prop( "disabled", true );
         $('#key2').prop( "disabled", true );
         msg = tag1 + ';' + tag2
-        //console.log('sending request for Tweets with Keywords');
+        
         sio.emit('get_stream', {'keys': msg, 'sid':client_id});
-        console.log('Sent');
+        charts = drawCharts(canvas1, canvas2);
+        // drawCharts();
+        console.log('Keywords sent to server for tweets.');
     });
 
     $('#stopbtn').on('click', function(){
@@ -80,12 +89,14 @@ $(document).ready(function()
         
         tweet_count += 1
         updateTagSentiment(msg.tags, msg.sentiment)
+
         $('#tweets_count').text(tweet_count)
         $('#key1_count').text(tag1_count)
         $('#key2_count').text(tag2_count)
         $('#tbody').append(col1 + col2 + col3 + col4 + "<hr/>")
         
-        console.log('tweet # '+tweet_count+' recieved from the server.')
+        updateCharts(charts[0],charts[1]);
+        // console.log('tweet # '+tweet_count+' recieved from the server.')
     });
 
     sio.on('disconnect', function() {
@@ -122,7 +133,7 @@ function updateTagSentiment(tag, sentiment)
         tag2_count += 1
         if(sentiment.toLowerCase() == 'positive')
         {
-            console.log('Found Positive for ' + tag);
+            // console.log('Found Positive for ' + tag);
             key2_sentiment['pos'] += 1
             $('#key2_pos').text(key2_sentiment['pos'])
         }
@@ -140,3 +151,50 @@ function updateTagSentiment(tag, sentiment)
     
 }
 
+function drawCharts(canvas1, canvas2)
+{
+    var chart1 = new Chart(canvas1, {
+        type: 'bar',
+        data: {
+            labels:['positive', 'negative', 'neutral'],
+            datasets:[{
+                label:$('#key1').val(),
+                data:[key1_sentiment['pos'],
+                key1_sentiment['neg'],
+                key1_sentiment['neut']],
+                backgroundColor:'green'
+            }]
+        },
+        options:{}
+    });
+
+    var chart2 = new Chart(canvas2, {
+        type: 'bar',
+        data: {
+            labels:['positive', 'negative', 'neutral'],
+            datasets:[{
+                label:$('#key2').val(),
+                data:[key2_sentiment['pos'],
+                key2_sentiment['neg'],
+                key2_sentiment['neut']],
+                backgroundColor:'blue'
+            }]
+        },
+        options:{}
+    });
+
+    return [chart1, chart2]
+}
+
+function updateCharts(chart1, chart2){
+    chart1.data.datasets[0].data = [
+        key1_sentiment['pos'],
+        key1_sentiment['neg'],
+        key1_sentiment['neut']];
+    chart1.update();
+    chart2.data.datasets[0].data = [
+        key2_sentiment['pos'],
+        key2_sentiment['neg'],
+        key2_sentiment['neut']];
+    chart2.update();
+}

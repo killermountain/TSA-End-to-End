@@ -68,9 +68,15 @@ def SendStream(key1, key2):
         count += 1
         print(f"Tweet #: {count} -- Sentiment: {sentiment}")
         sio.emit('tweets', tweet)
-        
+
 
 
 if __name__ == '__main__':
     sio.run(app, debug=True)
 
+
+# import uvicorn
+
+
+# if __name__ == "__main__":
+#     uvicorn.run("flasksocket:app", host="127.0.0.1", port=5000, log_level="info")

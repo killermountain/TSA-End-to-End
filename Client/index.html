@@ -9,8 +9,8 @@
 <body>
   <br>
 	<h1 class="display-4 text-center">Twitter Topics Sentiment Analysis</h1>
-  <ul id='messages'></ul>
-  <div class="container">
+  <br><br>
+  <div class="container text-center">
     <label>Keyword1: </label>
     <input type="text" id="key1"/>
     <label>Keyword2: </label>
@@ -20,11 +20,16 @@
     <button type="button" id="resetbtn" class="btn btn-secondary">Clear Keywords</button>
     <hr/>
   </div>
-  <div class='container'>
+  <ul id='messages'></ul>
+  <div id='results_container' class='container'>
       <div class="row">
         <h4 class="col-md-12 text-center">Total Tweets: <span id="tweets_count">0</span></h4>
-        <h5 class="col-md-6 text-center">Tweets for Keyword1: <span id="key1_count">0</span></h5>
-        <h5 class="col-md-6 text-center">Tweets for Keyword2: <span id="key2_count">0</span></h5>
+        <h5 class="col-md-6 text-center"># of Tweets for <span id='keyword1'>Keyword1</span>
+          <span id="key1_count">0</span>
+        </h5>
+        <h5 class="col-md-6 text-center"># of Tweets for <span id='keyword2'>Keyword2</span>
+          <span id="key2_count">0</span>
+        </h5>
         <div class="col-md-2">Positive: <span id="key1_pos">0</span></div>
         <div class="col-md-2">Negative: <span id="key1_neg">0</span></div>
         <div class="col-md-2 border-right border-primary">Neutral: <span id="key1_neut">0</span></div>
@@ -37,12 +42,13 @@
     <hr/>
   </div>  
  
-  <div class="container">
+  <div id='tweets_table' class="container">
     <div class="row">
+      <hr>
       <div class="col-md-1"><b>Matched Key(s)</b></div>
-      <div class="col-md-1"><b>Link</b></div>
-      <div class="col-md-1"><b>Sentiment</b></div>
-      <div class="col-md-9"><b>Tweet</b></div>        
+      <div class="col-md-1 text-center"><b>Link</b></div>
+      <div class="col-md-1 text-right"><b>Sentiment</b></div>
+      <div class="col-md-9 text-center"><b>Tweets</b></div>        
     </div>
       
     <div style="height:300px;overflow-y:scroll;">

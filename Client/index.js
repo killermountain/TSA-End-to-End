@@ -6,7 +6,10 @@ $(document).ready(function()
 {
     sio = io('http://127.0.0.1:5000/');
     $('#resetbtn').hide();
-    open_conn = true
+    $('#results_container').hide();
+    $('#tweets_table').hide();
+    
+    open_conn = false;
     client_id = 0
     tweet_count = 0
     tag1_count = 0
@@ -29,20 +32,24 @@ $(document).ready(function()
         }
         tag1 = $('#key1').val();
         tag2 = $('#key2').val();
+        $('#keyword1').text(tag1 + ": ");
+        $('#keyword2').text(tag2 + ": ");
         $('#key1').prop( "disabled", true );
         $('#key2').prop( "disabled", true );
         msg = tag1 + ';' + tag2
+
+        $('#results_container').show();
+        $('#tweets_table').show();
         
         sio.emit('get_stream', {'keys': msg, 'sid':client_id});
         charts = drawCharts(canvas1, canvas2);
-        // drawCharts();
+        
         console.log('Keywords sent to server for tweets.');
     });
 
     $('#stopbtn').on('click', function(){
         sio.send("[201] Disconnecting...;" + client_id);
         sio.disconnect();
-        open_conn = false
         $('#key1').prop( "disabled", false );
         $('#key2').prop( "disabled", false );
         $('#resetbtn').show();
@@ -55,6 +62,7 @@ $(document).ready(function()
     });
 
     sio.on('connect', function() {
+        open_conn = true;
         console.log('connected');
         $('#messages').append('<li>['+ (new Date).toLocaleString() +'] Connected to the server</li>');
         sio.send("[200] Client has connected to the server!"); 
@@ -100,6 +108,7 @@ $(document).ready(function()
     });
 
     sio.on('disconnect', function() {
+        open_conn = false
         console.log('disconnected');
         $('#messages').append('<li>['+ (new Date).toLocaleString() +'] Disconnected from the server.</li>');
     });
